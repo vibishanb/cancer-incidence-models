@@ -12,6 +12,7 @@ populations undergo logistic growth. Competition between populations is captured
 - Testing of the whole simulation for 10 values each of p and n.
 - Produces absolute counts for each combination of n and p value, and age-adjusted incidence rates standardised to the US 2000 standard population.
 
+
 ### Module import and function definition
 ```
 import numpy
