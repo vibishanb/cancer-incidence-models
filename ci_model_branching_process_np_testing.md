@@ -216,5 +216,11 @@ for i in a:
 b.append(str([85, 89]))
 df.columns = b
 
-df.to_excel('branching_process_np_testing_std_rate.xlsx')
+df.to_excel('branching_np_01_std_rate.xlsx')
+
+tot_inc_data = pd.DataFrame(tot_incidence, index = [numpy.ravel([[x,x,x,x,x] for x in p_arr]), numpy.array([n_arr]*5).ravel()])
+tot_inc_data.index.names = ['Mutation rate', 'Cell number' ]
+tot_inc_data = tot_inc_data.unstack()
+tot_inc_data.to_excel('branching_np_01_total_incidence.xlsx')
+
 ```
