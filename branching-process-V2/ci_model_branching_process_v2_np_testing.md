@@ -22,6 +22,7 @@ V2 [started on 15 May]:
 
 V2_np_testing [started 1 Jun]:
 - All of `V2`'s main code has been put into the function, `branching_process_v2_np()`. that takes two inputs-`p` and `n`, and runs the V2 simulation for these two values.
+	- Update [1 Jun]: Putting `V2` into a function makes all variables, including `cell_pop` and `alpha_matrix` inaccessible, which is a hindrance in troubleshooting. So the `V2` process is now part of the main code itself.
 - Returns crude age-specific incidence, and age-adjusted incidence based on the US 2000 population weights.
 
 ## Important considerations
