@@ -1,0 +1,266 @@
+\documentclass[12pt, onecolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath}
+\usepackage[backend=biber, style=numeric-comp, citestyle=nature, doi=false, isbn=false, url=false]{biblatex}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks = true, %Colours links instead of ugly boxes
+	urlcolor = blue, %Colour for external hyperlinks
+	linkcolor = red, %Colour of internal links
+	citecolor = red %Colour of citations
+}
+\usepackage{graphicx}
+\usepackage{caption}
+\DeclareCaptionLabelFormat{cont}{#1~#2\alph{ContinuedFloat}}
+\captionsetup[ContinuedFloat]{labelformat=cont}
+\usepackage{subcaption}
+%\graphicspath{ {/figures} }
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Models of cancer incidence}
+\rhead{\thepage}
+\makeindex
+\addbibresource{CImodel.bib}
+\title{\underline{Models of cancer incidence}}
+\author{Vibishan B.}
+
+
+\begin{document}
+	\maketitle
+	\section{Introduction}
+	
+	Accumulation of somatic mutations is a central process in carcinogenesis, and at least five distinct mutations are required to initiate a potential malignancy. The average somatic mutation rate is of the order of $10^{-6}$ per cell per generation \cite{Tomasetti2015,Lynch2010,Seshadri1987}, making it highly unlikley that any five cancerous mutations co-occur in the cell by random chance ($(10^{-6})^5 = 10^{-30}$). Given this remoteness, it follows that cancer must be a relatively rare occurence, with a fixed threshold age above which cancer is certain to occur. Both these predictions can be proven wrong based on actual incidence of cancer in the human population in recent years \cite{AmericanCancerSociety2016}. An elevated mutation rate alone is therefore insufficient to completely explain cancer incidence. 
+	
+	It is more realistic for mutations to accumulate sequentially through a process of clonal evolution, in which a mutation with a positive growth advantage would allow the mutant cells to grow and replace non-mutants. With sufficient expansion, this mutant population could then similarly acquire enough mutations for cancer to occur. This is the current paradigm of \textbf{somatic cancer evolution} \cite{Nowell1976}, and significant progress has been made to develop this basic view of intra-cellular competition into a more substantive evolutionary account of cancer processes \cite{Aktipis2013,Aktipis2013a,Gerlinger2014}. These perspectives have greatly improved the study of cancer, and opened new avenues of research focused on applying existing evolutionary theory to cancer biology. %A more substantial description of how clonal selection contributed to cancer evolution research-READ!
+	%The issue with clonal selection is not so much as one of assumption as omission. It does not explicitly account of the effect of diversity at the population level, and the conditional effect this diversity would have on the outcome of somatic mutations. Our model of conditional selection seeks to highlight the importance of this diversity in explaining cancer incidence.
+	%One way to demonstrate the utility of diversity in explaining cancer incidence is to replicate cancer incidence in different groups or populations using different parameters of the growth rate distribution; mean, variance and heavy tails.
+	
+	However, the conventional somatic evolution picture has consistently ignored an important aspect of cancer incidence that concerns population heterogeneity. By assuming clonality between individuals, the hypothesis concludes that any given somatic mutation must have the same all-time advantage wherever it occurs, leading inevitably to cancer. But this assumption is not necessary from a physiological viewpoint; tissues and micro-environmental factors could vary widely between individuals of the same species, depending on genetic and life style differences. This implies that the exact outcome of an identical mutation need not necessarily be identical amongst members of a population. Selection on somatic mutations could instead be conditional on factors that reach \emph{beyond} the mutation itself, to the local micro-environment that sets the stage for cellular competition. The extra-cellular matrix (ECM), for instance, is a complex combination of proteins and carbohydrates that is secreted by almost all somatic cells. By nature, it is highly dynamic, and has been shown to regulate a diverse array of cellular functions through feedback signaling. More importantly, the exact composition of the ECM differs between members of the same species, mostly in response to environmental factors, which could potentially result in a heterogeneous population. Given these confounding observations, it remains unclear whether or not the assumptions of the clonal selection theory can be accepted without a doubt.
+	
+	
+	\paragraph{\empty}Somewhat tangentially, it is also being recognized that somatic evolutionary processes can be diverse in modality \cite{\empty}, and four such general modalities have been putatively identified, with the understanding that none of them is necessarily operating in isolation within a tumour. These are the linear, branching, neutral and punctuated modes of tumour evolution, and as such, represent different dynamics of mutation accumulation. It is therefore also interesting to explore how basic parameters like the mutation rate and cell number, as well as nuanced parameters like population heterogeneity, vary in their effects depending on the evolution mode.
+	
+	\paragraph{\empty}To that end, we first develop a simple simulation of somatic mutagenesis, in which cells within an individual grow and accumulate mutations sequentially, ultimately leading to cancer. Since the argument here concerns incidence of cancer at the population level, we carry out the individual-level stochastic mutation process in a population of $100000$ individuals to generate predictions that can be compared with epidemiological data \cite{AmericanCancerSociety2016}. Through this comparison, we are able to show that an elevated mutation rate and clonal selection are insufficient to completely explain cancer incidence, argue that a complete model of carcinogenesis must explicitly account for heterogeneity in mutational outcomes in the population, and then continue to build predictions for other parameters for other modes of evolution.
+%	We also demonstrate that the conditional selection theory can produce better agreement with this data, while also giving a more realistic relationship of cancer incidence with age than the canonical power law equations \cite{Rozhok2016}.
+%	However, this model involves the implicit assumption that every mutation gives an all-time advantage. This means that a particular mutation that is associated with cancer must cause cancer every time it occurs, making oncogenicity a permanent attribute of the mutation. At face value, this seems like a trivial assumption to make; the protein encoded by a gene, and its function in a cell are constant across individuals of the same species, and in principle, identical mutations must produce identical effects.
+%%	Cancer is frequently cast as a micro-evolutionary process, but the central role of the tissue micro-environment in this process has not been given due attention. The extra-cellular matrix (ECM) is a complex and dynamic structure that is secreted by the cells themselves, and has been shown to be re-constituted in specific ways during differentiation, organ growth, wound healing and ageing [references]. More importantly, the exact nature of the ECM varies between individuals exposed to different kinds of external environments or leading different lifestyles. These differences could potentially lead to identical mutations having very different selective outcomes, which means oncogenicity need not necessarily be a permanent attribute of a mutation.
+%%	Apart from being physiologically implausible, the assumption of clonality between individuals is also challenged by epidemiological data. As with the mutation rate hypothesis, under clonal selection, every individual beyond a certain age should acquire cancer, simply as a function of probability. It is also frequently mentioned that cancer incidence has a power law type relationship with age \cite{Rozhok2016}. A quick persual of existing incidence data for the US is sufficient to prove that this relationship is not a canonical power law, and instead shows clear saturation beyond an age of about 60 \cite{AmericanCancerSociety2016}. This inconsistency with actual data demands a different model for how cancer emerges at the individual level, and how these mechanisms of cancer progression translate into population-level cancer incidence.
+%%	We therefore argue that selection of any mutation is contingent upon the tissue micro-environment, in terms of a favourable ECM \emph{and} cellular competition, both of which can vary between individuals. Since this model of tumour progression depends equally on both these factors, we refer to it as the \textbf{conditional selection hypothesis}.
+%	
+	\section{Methods}
+	\subsection{The linear process}
+%	\begin{itemize}
+%		\item Basic logic of the program-
+%			\subitem- Logistic growth of cells
+%			\subitem- $p_{mut}=1-(1-p)^{N}$
+%			\subitem- Mutations are simulated as stochastic events.
+%			\subitem- Clonal selection is modeled as a single $g$ value for the whole population, while conditional selection requires $g$ to be a random normal variable.
+%			\subitem- Five mutations make a cancer, and the current individual dies.
+%			\subitem- Payoff of mutations increases with age.
+%		\item Other routines for the following data-
+%			\subitem- Normalized fraction of cancer incidence with age/generation
+%			\subitem- Relationships of total cancer incidence with $p$ and $N$.
+%			\subitem- Distributions of $g$ with and without age effects.
+%	\end{itemize}
+	The general linear process considers mutation accumulation to occur sequentially; one cell from the initial non-mutant cell population gets a mutation that, by chance, allows the mutant to outcompete its non-mutant neighbours. This advantage leads to complete competitive exclusion of the non-mutants, with mutants replacing them in the entire niche. As this replacement progresses, one of the single mutant cells gets a second mutation that in turn, allows it to outcompete the single-mutant population, leading to a second cycle of replacement by the double-mutant cells. Over time, this process ultimately produces cells with enough accumulated mutations to become cancerous.
+	
+	\paragraph{\empty}We begin by considering a collection of $100000$ individuals, each with a poulation of $n$ stem cells at steady state logistic growth. If $p$ is the \underline{genome-wide mutation rate per cell per generation}, then the probability that at least one mutation occurs per generation in the population of $n$ cells, based on simple probability, is given by:
+	\begin{equation} \label{E1}
+	p_{mut}=1-(1-p)^{n}
+	\end{equation}
+	The above probability is used to simulate a stochastic mutation process; if the value $p_{mut}$ exceeds a randomly-generated value between $0$ and $1$, a mutation is considered to have occurred. This gives rise to a new mutant population of size $m=1$, which continues to grow logistically at a rate $g$ relative to the normal stem cells. Once a mutant population is initiated, $p_{mut}$ is calculated iteratively for the mutant population by replacing $n$ with $m$ in equation \ref{E1}. At some point, one of the cells in this population stochastically acquires a second mutation, which creates a new doubly mutant population. The growth of these cells is now followed by setting the value of $m$ back to $1$, and allowing them to grow at a rate, $g$. It must be noted here that this growth rate is now relative to the single mutation population rather than the normal stem cell population. For simplicity, we assume that the carrying capacity for all cell populations is the initial steady state cell number, $n$.
+	
+	Arbitrarily, we set a mutation threshold of five; five such mutation events are considered to constitute a case of cancer, which leads to the death of the individual. We intentionally neglect post-diagnosis clinical progression as they are relatively independent of the dynamics of mutation accumulation. We limit the natural lifespan to 90 years per individual, with 100 cell division cycles per year \cite{\empty}; this limit reflects availability of epidemiological data of cancer incidence across age groups \cite{AmericanCancerSociety2016}. Each simulated death therefore occurs when five mutations are accumulated, or at the age of 90 years, whichever happens first. We then repeat the entire process for the next, starting from the zeroth generation. We record each instance of cancer and the corresponding age at which it occurs, to get an age-wise count of cancer incidence.
+	
+	For the purposes of this simulation, we define cancer incidence in terms of both the crude rate, or the normalized fraction, of cancer in the population per $100000$ individuals at each age, as well as the age-adjusted rate of incidence. This calculation is explained in further detail in Section \ref{CRR}.
+	
+	\paragraph{\empty} 	Codes for all simulations, and most data analysis and plotting are written in Python, and executed on the Jupyter Notebook platform. Data is exported and stored in Excel format, and record keeping is managed on Github.
+	
+	
+	\subsubsection{Randomizing $p$ and $n$}\label{randy}
+	The description above is one way of running the simulation whose primary output is the curve of crude rate vs age, and the age-adjusted incidence rate calculated for the population based on the crude rates (Section \ref{CRR}). It is also possible to randomize the values of $p$ and $n$ within a pre-defined range across the population, in order to clearly demosntrate the effects of $p$ and $n$ on the dynamics of mutation accumulation.
+	
+	We start with uniform distributions for both $p$ and $n$ as no data exist to suggest \textit{a priori}, a specific distribution for either. $p$ is randomized in the range $[10^{-9}, 10^{-6}]$, while $n$, in the range $[10^{7}, 10^{10}]$ \cite{\empty}. Following randomization, we run each inidividual simulation according to the mutation threshold or lifespan specified above. When cancer does occur in an individual, we record the corresponding age of incidence along with that individual's mutation rate and cell number, and look for correlations between them. This correlation carries information about the effect of a variable on the temporal progression of mutation accumulation; faster progression leads to faster accumulation of mutations, and therefore cancer incidence at an earlier age. For instance, higher $p$ could accelerate mutation accumulation, and would therefore have a negative correlation with age of cancer incidence.
+	
+	\paragraph{\empty}A general feature about the effects of $n$ and $p$ can be expected \textit{a priori}, stemming from equation \ref{E1} which is used in stochastic mutagenesis. The quantity, $p_{mut}$ in equation \ref{E1} has a saturating trend with both $n$ and $p$; beyond some threshold value, $p$ no longer has an effect on $p_{mut}$, and the same is true of $n$. We can therefore expect a similar saturating relationship between $p$ and $n$ in the incidence parameters in the model predictions.
+%	\subsection{Effects of $p$ and $N$ on incidence}
+%	 Each mutation is characterized by both $p_{mut}$ and $g$. It follows then that different combinations of values of $p$ and $N$ would give different $p_{mut}$ values and therefore, different levels and trends of incidence. We carried out the entire simulation for a range of values of $p$ and $N$ chosen based on existing literature on physiological mutation rates and cell numbers\cite{Tomasetti2015,Seshadri1987}. For each combination of $p$ and $N$, we calculate normalized cancer incidence, with and without the effect of age on incidence, as detailed above. We also consider separately the relationship that emerges, of total cancer incidence in the population with $p$ and $N$.
+%	 
+%	 For subsequent exploration, we choose intermediate values of $p=2*10^{-8}$ and $N=10^{7}$.
+	
+	\subsubsection{Determination of $g$}\label{g value}
+	 Since we use $g$ as the growth rate of mutant cells relative to their non-mutant neighbours, it is essentially  a proxy for selection acting on mutations in an individual. Whether this selection is assumed to be identical in the population, or heterogeneity in mutation effects is allowed has important consequences for model predictions. $g$ is therefore an excellent parameter to test the context dependence of somatic mutations.
+	 
+	 \paragraph{\empty}Two distinct possibilities arise in this case:
+	 \begin{itemize}
+	 	\item Context-independent incidence
+	 	
+	 	Under this assumption, individuals in the population are clonal, and similar mutations would hence have the same selection advantage. Therefore, in any given run of the simulation, we set each individual to have the same value of $g$ for every mutation, across all $100000$ individuals. As each individual starts off with the same $n$ and $p$, the first mutation ocurring in each individual is essentially identical. Each subsequent mutation has the same relative growth rate given by $g$, as mentioned above. This homogeneity in the population is important as it is expected to make $g$ the key variable in determining cancer onset in the population. Since all individuals are identical, a higher $g$ leads to faster cell growth and progression, and earlier cancer onset.
+	 	
+	 	\item Context-dependent incidence
+	 	
+	 	In this case, we model $g$ as a normally-distributed random variable, as this view explicitly accounts for a heterogeneous population. For each individual, a different value of $g$ is chosen randomly based on the underlying distribution. Therefore, mutations with identical $p_{mut}$ values can still differ in terms of their selective advantage. Much like with randomizing $p$ and $n$ therefore, $g$ values leading to cancer in the population can also be correlated with the age at which cancer occurs. This is in keeping with the earlier expectation that higher $g$ values lead to faster progression and earlier cancer onset. The randomization of $g$ therefore gives two additional parameters in the model; the mean, $\mu_{g}$, and the standard deviation, $\sigma_{g}$. We test these effects by varying $\mu_{g}$ over $[0, 2]$ while $\sigma_{g}=1$, and varying $\sigma_{g}$ over $[0.5, 4]$ while $\mu_{g}=0.5$. Interestingly, when $n$, $p$ and $g$ are randomized together, it is also possible to consider their relative effects on the temporal features of cancer. We can therefore demonstrate by correlations of onset age with any parameters, and residuals of onset age with any other parameter, the extent to which each affects the onset age itself.
+	 	
+	 	At this stage, we choose to maintain the same relative growth rates for subsequent mutations occurring within an individual, without considering intra-tumour heterogeneity. Although this would be a simple modification to the simulation, it is not directly relevant to our argument of conditional selection at the population level, and we do not expect it to change our conclusions significantly. For the sake of completeness, we also use the uniform and triangular distributions for $g$ to verify that the qualitative relationship between cancer incidence and age is not sensitive to the exact shape of the distribution (data not shown).
+	 \end{itemize}
+	
+	\subsubsection{Normalized cancer incidence}\label{CRR}
+	Depending on the distribution of $g$ and the sequence in which the values occur, the fraction of the population surviving to a particular age could vary between subsequent runs. Moreover, absolute count of cases always under-estimates actual incidence at higher age groups as the suriving population size is continuously decreasing. To correct for this, we calculate the normalized cancer incidence for each age by diving the number of observed cases by the size of the suriving population at that age. This gives us the expected fraction of cancer for each age, and by multiplying this fraction by $100000$, we obtain the crude rate per $100000$ for that age.
+	
+	It is also common practice in epidemiology to calculate the age-adjusted incidence rate for any given population \cite{AmericanCancerSociety2016}. This is a weighted average of the crude rate, with the weights coming from the demorgaphic age distribution of a standard population. Since we do not have access to the exact age distribution of the simulated population, we extrapolate cancer incidence in different populations on to a known population structure, which allows for comparisons between them. Essentially, this eliminates underlying population structure as a source of variation while comparing the cancer incidence of several populations.
+	
+	\subsubsection{Effect of age on $g$}
+	It has been argued that somatic maintenance declines with age\cite{Rozhok2016}, and from a life history perspective, this does not seem entirely implausible. Evolutionary theories of ageing describe a steady decrease in selection pressure in the later stages of life beyond the age of peak fecundity. The "carcinogencitiy" of mutations could therefore increase with age as suppression mechanisms decline in efficiency. We model this by adding various monotonously increasing functions to the initial value of $g$ at each age, such that the value of $g$ increases continuously within the lifespan of every individual starting from the initial value obtained from the random number generator, as dictated by the age function.
+	
+
+	\section{Results}
+	
+	\subsection{The linear model: context-independent case}
+	
+	\subsubsection{Effect of $g$}
+	We begin with the linear model's context-independent case, which makes the simplest set of assumptions among all the models. As Figure \ref{fig1} shows, a clonal population leads to sharp transitions in cumulative incidence, which the sum of all crude rates up to each age. Since mutational processes are identical across individuals, cancer onset is also practically identical across the population. The age at which this transition occurs, and the rate of this transition, both depend on $g$; higher $g$ leads to cancer earlier in life, as well as a sharper transition to the cancerous state. It is noteworthy that lower values of $g$ lead to slower transitions, which could be an artifact of the discrete growth process. Given a certain length of time required for the mutation threshold to be exceeded, lower $g$ cell populations approach this threshold with smaller step sizes. The lower step size makes the cell populations more sensitive to stochastic variation in the exact age at which the initiating mutation occurred. This then represents a general property of $g$ and its effect on the cumulative incidence curve; higher $g$ leads to earlier cancer onset, and earlier cancer onset is also accompanied by faster approach to the cancerous stage.
+	
+	\begin{figure}
+		\centering
+		\def\svgscale{0.25}
+		\def\svgwidth{0.5\columnwidth}
+		\input{v1geff.pdf_tex}
+		\caption{\label{fig1} Effect of $g$ on cumulative incidence of cancer in a linear process simulation, with $p=$ and $n=$ for the entire population. The curve reaching 100000 represents 100\% incidence. These simulations were not constrained to the physiological lifespan of 90 years.}
+	\end{figure}
+
+	\subsection{Effects of $n$ and $p$}
+	As suggested in Section \ref{randy}, saturation effects of both $n$ and $p$ can be observed in the age-adjusted incidence (Figure \ref{fig2}), as well as crude and cumulative rates of incidence (Figure \ref{fig3a}). In Figure \ref{fig2}, the lowest rows in the first two panels clearly show that the age-adjusted rate (AAR) for $n=10^{10}$ does not depend upon the value of $p$. This apparently linear reponse of AAR with $n$ becomes more confused across the panels. However, interpretation of this trend must also involve the age curves in Figure \ref{fig3a}, which show that $n$ and $p$ mutually compensate for each  other's effects even for a given value of $g$; there are either so many cells that the mutation rate becomes unimportant to mutation accumulation, or the mutation rate is high enough that mutation accumulation remains unaffected even when cell number is low. Interestingly, the strength of this reciprocal compensation is dependent on $g$; for instance, from the top row to the bottom in Figure \ref{fig3b}(b), the cumulative incidence curve for $p=10^{-6}$ changes much more significantly across a row for lower $g$.
+	
+	This could again be explained based on the discrete logistic growth pattern; higher $g$ would naturally lead to higher step size, but so would higher $n$, which is also the logistic carrying capacity. As with $g$, the larger step size shifts incidence to earlier ages. The same explanation can be applied to the changing effects of $n$ with $g$; for high enough $g$, the cell populations would exceed the threshold size for a mutation to occur for most values of $n$; by how much this threshold is exceeded is immaterial.
+	
+	\paragraph{\empty}Randomization of $n$ and $p$ within the population allows us to isolate their effects on the temporal progression of mutations within individuals. Figure \ref{fig4} shows clearly that the value of $n$ does not determine the age of onset of cancer, while $p$ is significantly correlated to the age of onset. Even under the parsimonious linear fit, $p$ explains more than 50\% of the variance in the age of onset, supporting the notion that the mutation rate is at least as important as $g$ in determining how fast cancer occurs in an individual, while cell number plays a marginal role, if any, in determining the age of onset.
+	
+	\begin{figure}
+		\centering
+		\def\svgwidth{\columnwidth}
+ 	 	 \input{v1npaar.pdf_tex}
+		\caption{\label{fig2} Age-adjusted incidence rates for the linear context-independent model. Each grid represents results for one value of $g$, $p$ values on the horizontal axis increase from right to left, and $n$ values on the vertical axis increase from top to bottom. Individual grids have their colourbars to scale.}
+	\end{figure}
+	
+	\begin{figure}
+		\ContinuedFloat*
+		\centering
+		\def\svgwidth{\columnwidth}
+		\input{v1npcrr.pdf_tex}
+		\caption{\label{fig3a} Crude incidence rate per 100000; each panel contains crude rate curves for 4 values of $p$, each column represents one value of $n$, and each row, one value of $g$.}
+	\end{figure}
+	\begin{figure}
+		\ContinuedFloat
+		\centering
+		\def\svgwidth{\columnwidth}
+		\input{v1npcmr.pdf_tex}
+		\caption{\label{fig3b} Cumulative incidence rates corresponding to the crude rates in Figure \ref{fig3a}.}
+	\end{figure}
+
+	\begin{figure}
+		\centering
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{v1ncorr.png}
+			\caption{\empty}
+			\label{fig4a}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{v1pcorr.png}
+			\caption{\empty}
+			\label{fig4b}
+		\end{subfigure}
+		\caption{\label{fig4}Correlations of age of cancer onset with (a) cell number, and (b) mutation rate, with corresponding linear fits. Ranges of $n$ and $p$ in the text.}
+	\end{figure}
+	
+	\subsection{The linear model: context-dependent case}
+	An important difference between the context-dependent and -independent cases lies in the cumulative rate curve for the former, which does not always tend towards 100\% incidence. This reflects the fact that while a clonal population will become completely cancerous given enough time, a heterogeneous population is free of such a requirement. As Figure \ref{fig5a}(a), there can be pronounced decreases in the crude rate at later ages, along with gradual approaches to 100\% incidence or saturation at lower incidence as in Figure \ref{fig5b}(b). This difference can be attributed only to the addition of $g$ as a normally-distributed random variable, as everything else between the two cases is the same.
+	
+	However, there are also broad similarities between the context-dependent and -independent cases, beginning with the effects of $n$ and $p$ on each other. This mutual saturation threshold is clear from the crude and cumulative incidence curves, as well as from the AAR. These similarities notwithstanding, the effects of $g$ can now be explored in much better through its distribution, both in terms of $\mu_{g}$ and $\sigma_{g}$.
+	
+	As Figures \ref{fig5a}(a) and (b) show, $\mu_{g}$ does not change the $n$-$p$ interaction, but shifts it to a region of higher incidence; this is apparent from the similarity between a low $n$-high $\mu_{g}$ curve to a higher $n$-lower $g$ curve, and the fact that the lowest $p$ incidence curve begins as an outlier at $n_{1}$, and reaches saturation subsequently, for every value of $\mu_{g}$. It is important to note that in Figure \ref{fig5a}, the scale of the y-axis changes drastically across each row, which is explained by the gaps between the corresponding $n$ values.
+	
+	\paragraph{\empty}In terms of the effect on the $n$-$p$ interaction, varying $\sigma_{g}$ does not produce qualitatively different results from that in Figure \ref{fig5a}. An interesting feature however, is the decreasing age of cancer onset for large values of $\sigma_{g}$ (Figure \ref{fig6a}). For large variance in $g$, cancer incidence not only increases, but shifts strongly to earlier ages. A potential explanation could be that the random variable $g$ can have drastically large values for large $\sigma_{g}$, and as already been shown for the context-independent case (Figure \ref{fig1}), this will decrease the age of cancer onset.
+	
+	Remarkably, however, this shift to earlier cancer onset is not accompanied by a rapid approach to a 100\% cancerous state. Indeed, where for $g \in N(2,1)$, the cumulative incidence rate closely approached 100000, for $g \in N(0.5,4)$, it begins to show saturation around 50000, potentially indicating that large $\sigma_{g}$ increases the likelihood of both large positive and large negative values of $g$, thus bringing down the total incidence.
+	
+	\paragraph{\empty}Randomization of $p$ and $n$ along with $g$ allows us to draw some inferences on the role each plays in the temporal dynamics of mutation accumulation. Figure \ref{fig7} reiterates some of what was already known from the context-independent case in Figure \ref{fig4}; cell number is not signficantly associated with the age of cancer onset, but interestingly, the correlation on onset age with $p$ has rather weakened compared to the context-independent case, explaining only about 1.2\% of the variance in onset age. Instead, $g$ has a strong negative association with age of cancer onset. Assuming a linear relationship, we calculate the residuals of onset age with $g$, $E_{g}$, which is the variance in onset age that is entirely explained by $g$. These residuals are better correlated to the mutation rate, $p$ (Figure \ref{fig7}, although the correlation with $n$ did not improve (data not shown). Although the assumption of linearity probably under-estimates the residual variance, the two associations (Figures \ref{fig7}(a) and (b)) show clearly that primarily $g$, and to some extent, $p$, are both key determinants of the age of cancer onset, with $n$ playing almost no role at all.
+	
+	\begin{figure}[p]
+		\ContinuedFloat*
+		\centering
+		\def\svgwidth{0.75\textwidth}
+		\input{v2gmeancrr.pdf_tex}
+		\caption{\label{fig5a} Crude incidence rates in the linear context-dependent case. For all $\mu_{g}$, $\sigma_{g}=1$; 
+			$n_{1} = 10^{7}$, $n_{2} = 3*10^{9}$, $n_{3} = 7*10^{9}$, $n_{4} = 10^{10}$, $p_{1}= 10^{-9}$, $p_{2} = 3.3*10^{-7}$, $p_{3} = 6.7*10^{-7}$, $p_{4} = 10^{-6}$}
+	\end{figure}
+	\begin{figure}
+		\ContinuedFloat
+		\centering
+		\def\svgwidth{0.75\textwidth}
+		\input{v2gmeancmr.pdf_tex}
+		\caption{\label{fig5b} Cumulative incidence curves correspoding to the crude rates in Figure \ref{fig5a}(a). All other parameter values are the same.}
+	\end{figure}
+	
+	\begin{figure}
+		\ContinuedFloat*
+		\centering
+		\def\svgwidth{0.7\textwidth}
+		\input{v2gvarcrr.pdf_tex}
+		\caption{\label{fig6a} Crude incidence rates in the linear context-dependent case. For all $\sigma_{g}$, $\mu_{g}=0.5$; 
+			$n_{1} = 10^{7}$, $n_{2} = 3*10^{9}$, $n_{3} = 7*10^{9}$, $n_{4} = 10^{10}$, $p_{1}= 10^{-9}$, $p_{2} = 3.3*10^{-7}$, $p_{3} = 6.7*10^{-7}$, $p_{4} = 10^{-6}$}
+	\end{figure}
+
+	\begin{figure}
+		\ContinuedFloat
+		\centering
+		\def\svgwidth{0.7\textwidth}
+		\input{v2gvarcmr.pdf_tex}
+		\caption{\label{fig6b} Cumulative incidence curves correspoding to the crude rates in Figure \ref{fig6a}(a). All other parameter values are the same.}
+	\end{figure}
+	
+	\begin{figure}
+		\centering
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{v2ncorr.png}
+			\caption{\empty}
+			\label{fig7a}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{v2gcorr.png}
+			\caption{\empty}
+			\label{fig7b}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{v2pcorr.png}
+			\caption{\empty}
+			\label{fig7c}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{v2Egcorr.png}
+			\caption{\empty}
+			\label{fig7d}
+		\end{subfigure}
+		\caption{\label{fig7}Correlations of age of cancer onset with (a) cell number, $n$, (b) growth rate, $g$, and (c) mutation rate, $p$, and (d) correlation of residuals from a linear fit with $g$ of age of cancer onset, with mutation rate, $p$.}
+	\end{figure}
+	
+%	\begin{figure}
+%		\centering
+%		\begin{subfigure}[b]{0.45\textwidth}
+%			\def\svgwidth{\textwidth}
+%			\input{v2aarnp.pdf_tex}
+%			\caption{\empty}
+%		\end{subfigure}
+%		\begin{subfigure}[b]{0.45\textwidth}
+%			\def\svgwidth{\textwidth}
+%			\input{v3aarnp.pdf_tex}
+%			\caption{\empty}
+%		\end{subfigure}
+%		\caption{\label{fig5} Trends in age-adjusted incidence for the context-dependent case of the linear model, (a) without and (b) with age effects added. The two panels are practically identical, with the exception of the corresponding ranges of the values, which is marginally higher in (b).}
+%	\end{figure}
+	
+\printbibliography
+		
+\end{document}
