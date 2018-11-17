@@ -1,0 +1,1 @@
+for file in *.svg; do inkscape -D -z  "${file}" --export-png="${file}.png" -d 300; done
