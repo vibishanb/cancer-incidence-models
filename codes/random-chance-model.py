@@ -8,7 +8,9 @@ Under this formulation,
 pcan(t) = 1-(1-p**k)**m_delta(t), where m_delta(t) is the net change in cell number at time = t, as given by one step of the discrete logistic growth equation.
 p-age(A) = 1-(1-p**k)**(sum(m_delta) from t=0 to t=A); in NumPy terms, this is given as 1-(1-p**k)**m_delta.cumsum()
 
-2. Also added is the randomization of p and n separately.
+2. Also added is the randomization of p and n separately
+
+V2 corrected on 22 December; m_delta was counting cell divisions incorrectly. It is the positive part of the discrete logisitic equation that reflects cell growth in every step.
 
 """
 
@@ -19,7 +21,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from tqdm import tqdm_notebook as tqdm
 sns.set()
-sns.set_palette(sns.color_palette("hls", 20))
+sns.set_palette(sns.color_palette("viridis", 20))
 
 def get_m(n):
 	g = 0.007 #Standardized growth rate for one logistic step = 1 day
@@ -30,8 +32,8 @@ def get_m(n):
 
 	for t in range(1, time):
 		m[t] = m[t-1]
-		m_delta[t] = (m[t]*g*(n-m[t])/n) - m[t]*d
-		m_inc = m_delta[t]
+		m_delta[t]= m[t]*g*(n-m[t])/n
+		m_inc = m_delta[t] - m[t]*d
 		m[t] += m_inc
 
 	return m, m_delta
@@ -66,9 +68,10 @@ axarr[1,1].plot(pcan_p2.T)
 axarr[1,1].legend(numpy.array([numpy.format_float_scientific(i, precision=2) for i in parr]), fontsize='x-small', title='Mutation rate', loc='best', framealpha=0.5)
 
 fig.text(0.001, 0.5, r'$p_{A}$', fontsize=20, rotation='vertical')
-fig.text(0.5, 0.0025, 'Time (years)', fontsize=15, rotation='horizontal', ha='center')
+fig.text(0.5, 0.0025, 'Time (days)', fontsize=15, rotation='horizontal', ha='center')
 plt.tight_layout()
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/random-model-figures/18Dec/p-age-alternate-formulation-18Dec.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/random-model-figures/22Dec/p-age-alternate-formulation-22Dec.svg')
+
 
 # Randomizing p and n
 pdist = numpy.exp(np.uniform(-20, -5, size=1000))
@@ -93,6 +96,7 @@ axarr[1,1].set_xlabel('log(p)')
 fig.text(0.001, 0.5, r'$p_{can}$', fontsize=20, rotation='vertical')
 plt.tight_layout()
 plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/random-model-figures/18Dec/randomizing-p-and-n-18Dec.svg')
+
 
 """
 
