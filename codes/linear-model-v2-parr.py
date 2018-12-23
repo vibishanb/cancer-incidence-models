@@ -28,12 +28,12 @@ age = 100 #Lifespan
 time = ndiv*age #Duration of the simulation
 
 threshold = 5 #Mutation threshold for cancer
-# n = narr[5] #Carrying capacity
-p = parr[6] #Mutation rate
+n = narr[5] #Carrying capacity
+# p = parr[5] #Mutation rate
 
 persistence = numpy.zeros(Npop*(threshold-1)).reshape(Npop, (threshold-1))
-crc, cmc, crr = numpy.zeros(len(narr)*age).reshape(len(narr),age), numpy.zeros(len(narr)*age).reshape(len(narr),age), numpy.zeros(len(narr)*age).reshape(len(narr),age)
-pmean, pstd = numpy.zeros(len(narr)*(threshold-1)).reshape(len(narr), threshold-1), numpy.zeros(len(narr)*(threshold-1)).reshape(len(narr), threshold-1)
+crc, cmc, crr = numpy.zeros(len(parr)*age).reshape(len(parr),age), numpy.zeros(len(parr)*age).reshape(len(parr),age), numpy.zeros(len(parr)*age).reshape(len(parr),age)
+pmean, pstd = numpy.zeros(len(parr)*(threshold-1)).reshape(len(parr), threshold-1), numpy.zeros(len(parr)*(threshold-1)).reshape(len(parr), threshold-1)
 
 nzeros = numpy.zeros
 RAND = np.random_sample
@@ -43,14 +43,14 @@ wts=numpy.array([0.013818048555027355, 0.0553159434123515, 0.07253241028642805, 
 n_class = len(wts)
 
 flag = 0
-for n in tqdm(narr, desc='Cell number', leave=False):
+for p in tqdm(parr, desc='Mutation rate', leave=False):
     cancer_count = nzeros(age) #Age-wise incidence of cancer
     num_surv = nzeros(age) #Number of survivors in each age/generation
     cancer_fract = nzeros(age) #Normalized incidence of cancer
     cumul_count = nzeros(age) #Cumulative count of cancer
     crude_rate = nzeros(age) #Calculated age-wise incidence per 100000
 
-    gdist = np.normal(3, 5, Npop)
+    gdist = np.normal(0, 3, Npop)
 
     for j in tqdm(range(Npop), desc='Npop', leave=False):
         t=0 #Index to track time
@@ -101,25 +101,25 @@ for n in tqdm(narr, desc='Cell number', leave=False):
     flag += 1
 
 
-# In[22]:
+# In[8]:
 
 
 # mdata.to_excel('/home/iiser/PhD/Research/cancer_project/cancer_incidence_model/linear_model/V1/data/22Aug2018/linear_v1_m_g.xlsx')
 
-df_crc = pd.DataFrame(crc, index = narr)
-df_crc.index.names = ['Cell number']
+df_crc = pd.DataFrame(crc, index = parr)
+df_crc.index.names = ['Mutation rate']
 df_crc.columns.names = ['Age']
-df_crc.to_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/v2-data/22Dec2018/linear-v2-multipop-cancer-count-n.xlsx')
+df_crc.to_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/v2-data/22Dec2018/linear-v2-multipop-cancer-count-p.xlsx')
 
-df_cc = pd.DataFrame(cmc, index = narr)
-df_cc.index.names = ['Cell number']
+df_cc = pd.DataFrame(cmc, index = parr)
+df_cc.index.names = ['Mutation rate']
 df_cc.columns.names = ['Age']
-df_cc.to_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/v2-data/22Dec2018/linear-v2-multipop-cumulative-count-n.xlsx')
+df_cc.to_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/v2-data/22Dec2018/linear-v2-multipop-cumulative-count-p.xlsx')
 
-df_crr = pd.DataFrame(crr, index = narr)
-df_crr.index.names = ['Cell number']
+df_crr = pd.DataFrame(cmc, index = parr)
+df_crr.index.names = ['Mutation rate']
 df_crr.columns.names = ['Age']
-df_crr.to_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/v2-data/22Dec2018/linear-v2-multipop-crude-rate-n.xlsx')
+df_crr.to_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/v2-data/22Dec2018/linear-v2-multipop-crude-rate-p.xlsx')
 
 # df_aar = pd.DataFrame(aa_rate, index=garr)
 # df_aar.index.names = ['Cell number']
@@ -127,63 +127,59 @@ df_crr.to_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/v2-data
 # df_aar.to_excel('/home/iiser/PhD/Research/cancer_project/cancer_incidence_model/linear_model/V1/data/22Aug2018/linear_v1_aa_rate_neff.xlsx')
 
 
-# In[29]:
+# In[16]:
 
 
 for pmu, ps, l in zip(pmean.T, pstd.T, numpy.arange(1, 5)):
-    p = plt.errorbar(numpy.log10(narr), pmu, yerr=ps, label=l, capsize=3)
+    p = plt.errorbar(numpy.log10(parr), pmu, yerr=ps, label=l, capsize=3)
 plt.ylabel('Time (days)')
-plt.xlabel('log(n)')
+plt.xlabel('log(p)')
 plt.title('Waiting times across mutations')
 plt.legend(loc='best')
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-waiting-time-n.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-waiting-time-p.svg')
 
 
-# In[23]:
+# In[10]:
 
 
-half_age_narr = numpy.zeros_like(narr)
-for i in range(len(narr)):
-    half_age_narr[i] = numpy.less_equal(cmc[i], cmc[i,-1]/2).sum()
-plt.plot(numpy.log10(narr), half_age_narr, 'o-')
-plt.xlabel('log(n)')
+half_age_parr = numpy.zeros_like(parr)
+for i in range(len(parr)):
+    half_age_parr[i] = numpy.less_equal(cmc[i], cmc[i,-1]/2).sum()
+plt.plot(numpy.log10(parr), half_age_parr, 'o-')
+plt.xlabel('log(p)')
 plt.ylabel(r'$Age\ at\ \frac{I_{max}}{2}$')
-plt.show()
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-age-halfmax-n.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-age-halfmax-p.svg')
 
 
-# In[24]:
+# In[11]:
 
 
-plt.plot(numpy.log10(narr), cmc[:,-1], 'o-')
-plt.xlabel('log(n)')
+plt.plot(numpy.log10(parr), cmc[:,-1], 'o-')
+plt.xlabel('log(p)')
 plt.ylabel(r'$I_{max}$')
-plt.show()
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-imax-n.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-imax-p.svg')
 
 
 # In[2]:
 
 
-for i,l  in zip(crr, numpy.log10(narr).round(decimals=2)):
+for i,l  in zip(crr, numpy.log10(parr).round(decimals=2)):
     plt.plot(i, label=l)
 plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Crude incidence')
-plt.show()
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-age-crude-incidence-n.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-age-crude-incidence-p.svg')
 
 
 # In[3]:
 
 
-for i,l  in zip(cmc*100/Npop, numpy.log10(narr).round(decimals=2)):
+for i,l  in zip(cmc*100/Npop, numpy.log10(parr).round(decimals=2)):
     plt.plot(i, label=l)
 plt.legend()
 plt.xlabel('Age')
 plt.ylabel('Cumulative incidence (%)')
-plt.show()
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-age-cumulative-incidence-n.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/v2-figures/22Dec2018/linear-v2-multipop-age-cumulative-incidence-p.svg')
 
 
 # In[ ]:

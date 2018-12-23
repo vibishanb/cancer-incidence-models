@@ -37,7 +37,7 @@ time = ndiv*age #Duration of the simulation
 threshold = np.randint(2, 20, Npop) #Mutation threshold for cancer
 n = narr[5] #Carrying capacity
 # p = parr[5] #Mutation rate
-gdist = np.uniform(-2, 2, Npop)
+gdist = np.uniform(-10, 10, Npop)
 # gdist = np.gumbel(0, 3, Npop)
 
 # wts=numpy.array([0.013818048555027355, 0.0553159434123515, 0.07253241028642805, 0.07303103455912367, 0.07216711636515384, 0.06647847243710951, 0.06452984736662379, 0.07104508339877749, 0.08076197744193335, 0.08185169462960405, 0.07211714069611326, 0.06271758577923968, 0.048454493422914295, 0.038794489715138394, 0.034263609991378986, 0.03177168658747205, 0.026997999757072733, 0.017842803104216928, 0.01550856249432107]) #Weights from the US 2000 standard population
@@ -116,14 +116,14 @@ crude_rate = cancer_fract*100000
 plt.plot(cumul_count)
 plt.xlabel('Time (years)')
 plt.ylabel('Cumulative incidence')
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/linear-v2-gdist-uniform-prand-cumul-count-16Nov.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/23Dec/linear-v2-gdist-uniform-prand-cumul-count-23Dec.svg')
 
 
 # In[6]:
 
 
 df_incidence = pd.DataFrame(numpy.array([cancer_count, cumul_count, cancer_fract]).T, columns=['Raw count', 'Cumulative rate', 'Age-specific rate'])
-df_incidence.to_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensitivity-data/gdist-16Nov/linear-v2-gdist-uniform-prand-incidence-data-16Nov.csv')
+df_incidence.to_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensitivity-data/gdist-16Nov/23Dec/linear-v2-gdist-uniform-prand-incidence-data-23Dec.csv')
 
 
 # In[7]:
@@ -137,7 +137,7 @@ gdist_sens = pd.DataFrame(numpy.array([numpy.log10(pdist[cancer_time!=0]), gdist
 
 
 # nsen_data.to_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensitivity-data/linear-v1-cancer-time-k&n-rand.xls')
-gdist_sens.to_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensitivity-data/gdist-16Nov/linear-v2-cancer-time-gdist-uniform-prand-16Nov.xls')
+gdist_sens.to_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensitivity-data/gdist-16Nov/23Dec/linear-v2-cancer-time-gdist-uniform-prand-23Dec.xls')
 
 
 # In[11]:
@@ -145,14 +145,14 @@ gdist_sens.to_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensi
 
 sns.jointplot(x='g(k-1)', y='Time to cancer', data=gdist_sens, kind='reg', stat_func=stats.pearsonr)
 plt.tight_layout()
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/linear-v2-g-vs-cancer-time-uniform-prand-16Nov.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/23Dec/linear-v2-g-vs-cancer-time-uniform-prand-23Dec.svg')
 
 
 # In[14]:
 
 
 sns.jointplot(x='g(k-1)', y='log(p)', data=gdist_sens, kind='reg', stat_func=stats.pearsonr)
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/linear-v2-p-vs-g-uniform-prand-16Nov.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/23Dec/linear-v2-p-vs-g-uniform-prand-23Dec.svg')
 
 
 # In[17]:
@@ -160,4 +160,4 @@ plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitiv
 
 jp1 = sns.jointplot(x='log(p)', y='Time to cancer', data=gdist_sens, kind='reg', stat_func=stats.pearsonr)
 plt.tight_layout()
-plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/linear-v2-g-vs-cancer-time-uniform-prand-16Nov.svg')
+plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist-16Nov/23Dec/linear-v2-p-vs-cancer-time-uniform-prand-23Dec.svg')
