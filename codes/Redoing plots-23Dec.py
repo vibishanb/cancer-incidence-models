@@ -35,3 +35,27 @@ sns.jointplot(x='g(k-1)', y='Time to cancer', data=df_prand, kind='reg', stat_fu
 tight_layout()
 savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/sensitivity-figures/gdist/linear-v2-g-vs-cancer-time-gumbel-prand-23Dec.svg')
 show()
+
+# Removing lines from S2-1 and S2-2
+df_nrand=  pd.read_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensitivity-data/linear-v1-cancer-time-k&n-rand.csv', index_col=0)
+df_prand = pd.read_csv('/home/iiser/PhD/github-cancer-incidence-models/all-data/sensitivity-data/linear-v1-cancer-time-k&p-rand.csv', index_col=0)
+
+sns.jointplot(x='log(n)', y='Time to cancer', data=df_nrand)
+sns.jointplot(x='log(p)', y='Time to cancer', data=df_prand)
+
+df_nrand[r'$\Delta_{g}$'] = (df_nrand['g(k-1)'] - 0.007)/df_nrand['Threshold']
+df_prand[r'$\Delta_{g}$'] = (df_prand['g(k-1)'] - 0.007)/df_prand['Threshold']
+
+sns.jointplot(x=r'$\Delta_{g}$', y='Time to cancer', data=df_nrand.where(df_nrand['Threshold']==2), kind='reg', stat_func=stats.pearsonr)
+show()
+sns.jointplot(x=r'$\Delta_{g}$', y='Time to cancer', data=df_nrand.where(df_nrand['Threshold']==4), kind='reg', stat_func=stats.pearsonr)
+show()
+sns.jointplot(x=r'$\Delta_{g}$', y='Time to cancer', data=df_nrand.where(df_nrand['Threshold']==6), kind='reg', stat_func=stats.pearsonr)
+show()
+
+sns.jointplot(x=r'$\Delta_{g}$', y='Time to cancer', data=df_prand.where(df_prand['Threshold']==2), kind='reg', stat_func=stats.pearsonr)
+show()
+sns.jointplot(x=r'$\Delta_{g}$', y='Time to cancer', data=df_prand.where(df_prand['Threshold']==5), kind='reg', stat_func=stats.pearsonr)
+show()
+sns.jointplot(x=r'$\Delta_{g}$', y='Time to cancer', data=df_prand.where(df_prand['Threshold']==8), kind='reg', stat_func=stats.pearsonr)
+show()
