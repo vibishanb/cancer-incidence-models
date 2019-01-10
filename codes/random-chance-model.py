@@ -12,6 +12,23 @@ p-age(A) = 1-(1-p**k)**(sum(m_delta) from t=0 to t=A); in NumPy terms, this is g
 
 V2 corrected on 22 December; m_delta was counting cell divisions incorrectly. It is the positive part of the discrete logisitic equation that reflects cell growth in every step.
 
+Additions on 10 January:
+More exploration based on a formulation of lifetime cancer risk from Nunney & Muir (2015); they calculate lifetime probability as:
+	p = C*(K*u)**M, 
+	where C = number of stem cells,
+		  K = expected number of lifetime divisions,
+		  u = somatic mutation rate, and 
+		  M = number of rate-limiting steps
+
+This logic could be applied to derive tissue-wise predictions of cancer probability against age, as their analysis also gives estimates of M for various tissue types, and we already have number of stem cells for the corresponding tissues.
+I used the formulation below first:
+	p_{A} = (1-(1-p)**m_delta(A).cumsum())**k, 
+	where, p_{A} = cumulative cancer probability at age, A (measured in cell divisions),
+		   p = somatic mutation rate, 
+		   m_delta(A).cumsum() = cumulative number of cell divisions up to age, A, and
+		   k = number of rate-limting steps as obtained from Nunney & Muir (2015)
+
+This is probably not entirely valid; the positive part of the discrete logistic equation does not necessarily correspond to cell divisions directly, so whether our formulation estimates the expected number of cell divisions for various tissue types is still unclear.
 """
 
 import numpy
@@ -130,3 +147,20 @@ plt.legend(fontsize='medium', title='Mutation rate', bbox_to_anchor=(0.95, 0.95)
 plt.tight_layout()
 #plt.savefig('/home/iiser/PhD/github-cancer-incidence-models/all-figures/random-model-figures/mutation-probability-31Oct.svg')
 """
+
+# Formulation based on Nunney & Muir (2015)
+pylab
+tissue_data = pd.read_excel('/home/iiser/PhD/github-cancer-incidence-models/all-data/random-chance-model-data/chi-square-analysis.xls', index_col=0, sheet_name='Incidence by site')
+tissue_data.drop(columns=tissue_data.columns[2:], index=tissue_data.index[-2:], inplace=True) # Gets me values of k and n alone for each tissue type/cancer site
+
+tissue_data.sort_values(by=['Mutation threshold, k from Nunney & Muir (2015)'], inplace=True) # Sort cancer sites in ascending order of k
+
+narr = array(tissue_data['Cell number, n'])
+k = array(tissue_data['Mutation threshold, k from Nunney & Muir (2015)'])
+pcan = array([(1-(1-p)**get_m(n)[1].cumsum())**i for n, i in zip(narr, k)])
+pcan_df = pd.DataFrame(pcan, index=tissue_data.index)
+pcan_df.reindex(index=tissue_data.index) # Sorting the calculated probability vs age by k, as with tissue-data
+
+pcan_df.T.plot(loglog=True)
+legend(fontsize='small', title='Cancer site', loc=4)
+xlabel('Time (cell divisions)'); ylabel(r'$p_{A}$') 
