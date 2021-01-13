@@ -1,0 +1,55 @@
+\documentclass[12pt,onecolumn,twoside]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts, amsmath}
+% \usepackage{nature}
+
+\usepackage{cell}
+\usepackage{natbib}
+% The Cell style only works with BibTeX and not BibLaTeX. So load the 'cell' package here, the bib and style file commands in the document at the end, and make sure the cell.bst file is in the same directory as the tex file. Once all of this is in place, compile on the terminal with this sequence: xelatex filename, bibtex filename.aux, xelatex filename, xelatex filename. Atom-latex is a bit unreliable in this regard.
+
+\usepackage[document]{ragged2e} %For non-justified text alignment
+\usepackage[margin=0.75in]{geometry}
+\usepackage{fontspec}
+\setmainfont{Carlito}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks = true, %Colours links instead of ugly boxes
+	urlcolor = blue, %Colour for external hyperlinks
+	linkcolor = red, %Colour of internal links
+	citecolor = black %Colour of citations
+}
+%\usepackage{threeparttable}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+% \usepackage{fancyhdr}
+% \pagestyle{fancy}
+% \fancyhf{}
+% \rhead{\thepage}
+\makeindex
+
+\title{A general model of somatic cancer progression}
+\date{\empty}
+
+\begin{document}
+    \maketitle
+    \section{Structure}
+    \begin{itemize}
+        \item What are the hallmarks of cancer?
+        \item What do we know of the temporal progression of cancer, at least phenotyically?
+        \item Based on these two things, we can derive one possible phenotypic abstraction of the progression of cancer.
+        \item Agent-based model and the attributes of each cell-
+            \begin{itemize}
+                \item Start with an individual with a normal tisssue compartment with no mutant cells and some baseline homeostatic resource level.
+                \item Growth and death rates-same values and distributions, but independent. Range from the literature-some of it is already on that markdown file in /input-data.
+                \item Resource thresholds for growth and necrosis-these are going to be normalised in the same way that Harsha is doing for prostate cancer. Since this is an explicitly general model, I will data on normal tissue oxygen levels and uptake rates for at least five or six different tissues to be able to arrive at some kind of range over which these thresholds will be normalised.
+                \item Uptake rate-normalised like the resource thresholds and would require mostly the same data.
+                \item Mutation rate-this data is mercifully available already from Tomasetti et al.
+                \item Two qualitative flag traits-angiogenic switch (on/off) and metastatic potential (yes/no)
+                \item \textbf{Are angiogenesis, and invasion and metastasis mutually exclusive phenotypes at the level of the individual cell?}
+            \end{itemize}
+        \item Environmental processes revolve primarily around resource management and I will need data for baseline supply rates across tissues, so that this rate along with the baseline normal oxygen tension can be used to establish a reservoir of resources that is supplied at a constant rate and from which cells draw the resource. \textbf{How to enact competition between cells for a given amount of resource?}
+        \item If more than 50\% cells acquire metastatic potential and separately \textbf{some condition for ensuring sufficient tumour angiogenesis} => metastasis and death. Terminate individual.
+    \end{itemize}
+\end{document}
